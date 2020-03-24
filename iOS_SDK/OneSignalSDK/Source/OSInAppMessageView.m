@@ -389,6 +389,13 @@
         NSLog(locationButton);
         html = [html stringByAppendingString:locationButton];
     }
+    
+    // Push and Location Prompt Button
+    if ([OneSignal.iamV2Prompting containsObject:@"push"] && [OneSignal.iamV2Prompting containsObject:@"location"]) {
+        NSString *pushAndLocationButton = [self addPushAndLocationPromptingButtonToHtml];
+        NSLog(pushAndLocationButton);
+        html = [html stringByAppendingString:pushAndLocationButton];
+    }
 
     html = [html stringByAppendingString:suffix];
 
@@ -480,6 +487,22 @@
             @"       \"close\":%@,"
             @"       \"url\":\"\","
             @"       \"prompts\":[\"location\"]"
+            @"   }'"
+            @"   data-action-label=\"button\">Location Prompt</button>\n"
+            @"\n",
+            dismiss];
+}
+
+- (NSString*)addPushAndLocationPromptingButtonToHtml {
+   NSString *dismiss = OneSignal.iamV2ShouldDismiss ? @"true" : @"false";
+
+   return [[NSString alloc] initWithFormat:
+            @"<button type=\"button\" id=\"button\" class=\"iam-button iam-clickable\""
+            @"   data-action-payload='{"
+            @"       \"url_target\":\"browser\","
+            @"       \"close\":%@,"
+            @"       \"url\":\"\","
+            @"       \"prompts\":[\"push\", \"location\"]"
             @"   }'"
             @"   data-action-label=\"button\">Location Prompt</button>\n"
             @"\n",
